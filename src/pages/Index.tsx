@@ -419,7 +419,7 @@ export default function Index() {
           <SectionTitle
             eyebrow="Academy Modules"
             title="Учебна програма като карта на знанието"
-            description="Шест "света" от основи до финансова свобода. Всеки модул е прикрепен към конкретна механика в симулацията."
+            description={'Шест "света" от основи до финансова свобода. Всеки модул е прикрепен към конкретна механика в симулацията.'}
           />
           <div className="mt-10 grid gap-4 md:grid-cols-2">
             {modules.map((m) => (
