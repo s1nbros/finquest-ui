@@ -381,7 +381,7 @@ export default function Index() {
           <SectionTitle
             eyebrow="FinQuest в 60 секунди"
             title="Система за обучение, която изгражда навици"
-            description="Не просто "прочети и запомни", а практикувай решения в симулация, виж последствията и получи урок в момента."
+            description={'Не просто "прочети и запомни", а практикувай решения в симулация, виж последствията и получи урок в момента.'}
           />
           <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {features.map((f) => (
