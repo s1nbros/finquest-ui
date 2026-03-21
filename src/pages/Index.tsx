@@ -48,50 +48,34 @@ function Reveal({
 function AnimatedOrbs() {
   return (
     <div className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden="true">
-      {/* Green orb */}
       <div
-        className="absolute left-[15%] top-[20%] h-[300px] w-[300px] rounded-full opacity-20 blur-[120px]"
-        style={{
-          background: 'hsl(var(--brand-green))',
-          animation: 'orb-float-1 12s ease-in-out infinite',
-        }}
+        className="absolute left-[15%] top-[20%] h-[300px] w-[300px] rounded-full opacity-[0.12] blur-[120px]"
+        style={{ background: 'hsl(var(--brand-green))', animation: 'orb-float-1 12s ease-in-out infinite' }}
       />
-      {/* Primary (blue) orb */}
       <div
-        className="absolute right-[20%] top-[30%] h-[250px] w-[250px] rounded-full opacity-15 blur-[100px]"
-        style={{
-          background: 'hsl(var(--primary))',
-          animation: 'orb-float-2 15s ease-in-out infinite',
-        }}
+        className="absolute right-[20%] top-[30%] h-[250px] w-[250px] rounded-full opacity-[0.08] blur-[100px]"
+        style={{ background: 'hsl(var(--primary))', animation: 'orb-float-2 15s ease-in-out infinite' }}
       />
-      {/* Smaller green orb */}
       <div
-        className="absolute left-[50%] bottom-[15%] h-[200px] w-[200px] rounded-full opacity-10 blur-[80px]"
-        style={{
-          background: 'hsl(var(--brand-green))',
-          animation: 'orb-float-3 18s ease-in-out infinite',
-        }}
+        className="absolute left-[50%] bottom-[15%] h-[200px] w-[200px] rounded-full opacity-[0.07] blur-[80px]"
+        style={{ background: 'hsl(var(--brand-green))', animation: 'orb-float-3 18s ease-in-out infinite' }}
       />
-      {/* Tiny accent */}
       <div
-        className="absolute right-[35%] top-[60%] h-[120px] w-[120px] rounded-full opacity-[0.08] blur-[60px]"
-        style={{
-          background: 'hsl(var(--brand-green))',
-          animation: 'orb-float-1 20s ease-in-out infinite reverse',
-        }}
+        className="absolute right-[35%] top-[60%] h-[120px] w-[120px] rounded-full opacity-[0.05] blur-[60px]"
+        style={{ background: 'hsl(var(--brand-green))', animation: 'orb-float-1 20s ease-in-out infinite reverse' }}
       />
     </div>
   )
 }
 
-/* ── Logo ── */
+/* ── Logo component (transparent PNG, no background needed) ── */
 function LogoMark() {
   return (
-    <div className="flex items-center gap-2">
-      <img src={finquestLogo} alt="FinQuest logo" className="h-9 w-9 rounded-xl bg-background object-contain" />
+    <div className="flex items-center gap-2.5">
+      <img src={finquestLogo} alt="FinQuest logo" className="h-10 w-10 object-contain drop-shadow-[0_0_8px_hsl(var(--brand-green)/0.4)]" />
       <div className="leading-tight">
         <div className="text-sm font-semibold tracking-tight">FinQuest</div>
-        <div className="text-[12px] text-muted-foreground">FinTech x EdTech RPG</div>
+        <div className="text-[11px] text-muted-foreground">FinTech x EdTech RPG</div>
       </div>
     </div>
   )
@@ -135,7 +119,7 @@ function StatPill({ value, label }: { value: string; label: string }) {
 function FeatureCard({ icon, title, description, delay = 0 }: { icon?: ReactNode; title: string; description: string; delay?: number }) {
   return (
     <Reveal delay={delay}>
-      <div className="h-full rounded-3xl border border-border bg-secondary/50 p-6 shadow-soft transition-[box-shadow,transform] duration-300 hover:shadow-[0_14px_40px_rgba(0,0,0,0.45)] hover:-translate-y-1">
+      <div className="h-full rounded-3xl border border-border bg-secondary/40 p-6 shadow-soft backdrop-blur-sm transition-[box-shadow,transform] duration-300 hover:shadow-[0_14px_40px_rgba(0,0,0,0.45)] hover:-translate-y-1">
         {icon ? <div className="h-10 w-10 rounded-2xl bg-brand-green/10 ring-1 ring-brand-green/20 flex items-center justify-center">{icon}</div> : null}
         <h3 className="mt-4 text-lg font-semibold tracking-tight">{title}</h3>
         <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{description}</p>
@@ -146,7 +130,7 @@ function FeatureCard({ icon, title, description, delay = 0 }: { icon?: ReactNode
 
 function FAQItem({ q, a, open, onToggle }: { q: string; a: string; open: boolean; onToggle: () => void }) {
   return (
-    <div className="rounded-3xl border border-border bg-secondary/50 overflow-hidden transition-colors duration-200 hover:bg-secondary/70">
+    <div className="rounded-3xl border border-border bg-secondary/40 overflow-hidden backdrop-blur-sm transition-colors duration-200 hover:bg-secondary/60">
       <button type="button" className="w-full p-5 text-left" onClick={onToggle} aria-expanded={open}>
         <div className="flex items-start justify-between gap-4">
           <div className="text-[15px] font-semibold tracking-tight">{q}</div>
@@ -172,14 +156,12 @@ export default function Index() {
     { label: 'FAQ', href: '#faq' },
   ], [])
 
-  /* Intro text stagger */
   const [introReady, setIntroReady] = useState(false)
   useEffect(() => {
     const t = setTimeout(() => setIntroReady(true), 200)
     return () => clearTimeout(t)
   }, [])
 
-  /* Navbar scroll */
   const [scrolled, setScrolled] = useState(false)
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 40)
@@ -226,12 +208,12 @@ export default function Index() {
   const [openFaqIndex, setOpenFaqIndex] = useState<number>(0)
 
   return (
-    <div className="min-h-screen bg-background text-foreground">
+    <div className="min-h-screen text-foreground bg-noise">
       <a href="#content" className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-50 focus:rounded-xl focus:bg-foreground focus:px-4 focus:py-2 focus:text-background">
         Skip to content
       </a>
 
-      {/* ── APPLE-STYLE FLOATING NAVBAR ── */}
+      {/* ── NAVBAR ── */}
       <header
         className="fixed top-0 left-0 right-0 z-50 flex justify-center transition-all duration-500"
         style={{ paddingTop: scrolled ? '8px' : '16px' }}
@@ -240,26 +222,22 @@ export default function Index() {
           className="flex items-center gap-1 rounded-full border border-border/60 px-2 py-1.5 backdrop-blur-xl transition-all duration-500"
           style={{
             background: scrolled
-              ? 'hsla(var(--background) / 0.7)'
-              : 'hsla(var(--background) / 0.4)',
+              ? 'hsla(228, 24%, 8%, 0.75)'
+              : 'hsla(228, 24%, 8%, 0.45)',
             boxShadow: scrolled
-              ? '0 8px 32px rgba(0,0,0,0.3), inset 0 0.5px 0 rgba(255,255,255,0.06)'
-              : '0 4px 20px rgba(0,0,0,0.15), inset 0 0.5px 0 rgba(255,255,255,0.04)',
+              ? '0 8px 32px rgba(0,0,0,0.4), inset 0 0.5px 0 rgba(255,255,255,0.06)'
+              : '0 4px 20px rgba(0,0,0,0.2), inset 0 0.5px 0 rgba(255,255,255,0.04)',
           }}
           aria-label="Navigation"
         >
           <a href="#" className="flex items-center gap-2 rounded-full px-3 py-1.5 nav-liquid-link" aria-label="FinQuest">
-            <img src={finquestLogo} alt="FinQuest" className="relative z-10 h-7 w-7 rounded-lg bg-background object-contain" />
+            <img src={finquestLogo} alt="FinQuest" className="relative z-10 h-8 w-8 object-contain drop-shadow-[0_0_6px_hsl(var(--brand-green)/0.3)]" />
             <span className="relative z-10 text-sm font-semibold tracking-tight hidden sm:inline text-foreground">FinQuest</span>
           </a>
 
           <div className="hidden md:flex items-center">
             {nav.map((item) => (
-              <a
-                key={item.href}
-                href={item.href}
-                className="nav-liquid-link"
-              >
+              <a key={item.href} href={item.href} className="nav-liquid-link">
                 <span className="relative z-10">{item.label}</span>
               </a>
             ))}
@@ -275,13 +253,12 @@ export default function Index() {
           </button>
         </nav>
 
-        {/* Mobile dropdown */}
         {mobileOpen && (
           <div
             className="absolute top-full mt-2 left-1/2 -translate-x-1/2 w-[calc(100%-2rem)] max-w-sm rounded-2xl border border-border/60 backdrop-blur-xl p-2"
             style={{
-              background: 'hsla(var(--background) / 0.85)',
-              boxShadow: '0 12px 40px rgba(0,0,0,0.3)',
+              background: 'hsla(228, 24%, 8%, 0.9)',
+              boxShadow: '0 12px 40px rgba(0,0,0,0.4)',
               animation: 'hero-badge-pop 0.3s cubic-bezier(0.16,1,0.3,1) both',
             }}
           >
@@ -300,18 +277,14 @@ export default function Index() {
       </header>
 
       <main id="content">
-        {/* ══════════ PERSISTENT HERO (ZeroLoop-inspired) ══════════ */}
+        {/* ══════════ PERSISTENT HERO ══════════ */}
         <section className="relative flex min-h-screen items-center justify-center overflow-hidden">
-          {/* Animated background orbs */}
           <AnimatedOrbs />
 
-          {/* Subtle grid pattern */}
+          {/* Radial glow behind hero */}
           <div
-            className="pointer-events-none absolute inset-0 opacity-[0.03]"
-            style={{
-              backgroundImage: 'linear-gradient(hsl(var(--foreground)) 1px, transparent 1px), linear-gradient(90deg, hsl(var(--foreground)) 1px, transparent 1px)',
-              backgroundSize: '60px 60px',
-            }}
+            className="pointer-events-none absolute left-1/2 top-1/2 h-[600px] w-[600px] -translate-x-1/2 -translate-y-1/2 rounded-full opacity-[0.06]"
+            style={{ background: 'radial-gradient(circle, hsl(var(--brand-green)), transparent 70%)' }}
             aria-hidden="true"
           />
 
@@ -325,7 +298,11 @@ export default function Index() {
                 transition: 'all 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0ms',
               }}
             >
-              <img src={finquestLogo} alt="" className="mx-auto h-20 w-20 rounded-2xl bg-background object-contain shadow-[0_0_60px_hsl(var(--brand-green)/0.3)]" />
+              <img
+                src={finquestLogo}
+                alt=""
+                className="mx-auto h-24 w-24 object-contain drop-shadow-[0_0_40px_hsl(var(--brand-green)/0.4)]"
+              />
             </div>
 
             {/* Headline */}
@@ -356,7 +333,7 @@ export default function Index() {
               Learn. Play. Build lasting financial habits.
             </p>
 
-            {/* CTA buttons */}
+            {/* CTA */}
             <div
               className="mt-8 flex flex-col items-center gap-3 sm:flex-row sm:justify-center"
               style={{
@@ -373,7 +350,7 @@ export default function Index() {
               </a>
             </div>
 
-            {/* Decorative line */}
+            {/* Line */}
             <div
               className="mx-auto mt-8 h-px w-32 bg-brand-green/40"
               style={{
@@ -382,14 +359,8 @@ export default function Index() {
               }}
             />
 
-            {/* Scroll indicator */}
-            <div
-              className="mt-12"
-              style={{
-                opacity: introReady ? 1 : 0,
-                transition: 'opacity 1s ease 1.2s',
-              }}
-            >
+            {/* Scroll hint */}
+            <div className="mt-12" style={{ opacity: introReady ? 1 : 0, transition: 'opacity 1s ease 1.2s' }}>
               <a href="#about" className="inline-flex flex-col items-center gap-2 text-muted-foreground/60 hover:text-brand-green/80 transition-colors">
                 <span className="text-xs tracking-widest uppercase">Scroll</span>
                 <svg width="16" height="24" viewBox="0 0 16 24" fill="none" className="opacity-60" style={{ animation: 'scroll-hint 2s ease-in-out infinite' }}>
@@ -400,7 +371,7 @@ export default function Index() {
           </div>
         </section>
 
-        {/* ══════════ ABOUT / HERO DETAILS ══════════ */}
+        {/* ══════════ ABOUT ══════════ */}
         <section id="about" className="relative overflow-hidden">
           <AnimatedOrbs />
           <div className="relative mx-auto max-w-6xl px-4 pb-14 pt-20 sm:pb-20">
@@ -438,7 +409,7 @@ export default function Index() {
               {/* Command Center Mock */}
               <Reveal delay={200}>
                 <div className="relative">
-                  <div className="rounded-3xl border border-border bg-secondary/50 p-5 shadow-soft">
+                  <div className="rounded-3xl border border-border bg-secondary/40 p-5 shadow-soft backdrop-blur-sm">
                     <div className="flex items-center justify-between gap-4">
                       <div>
                         <div className="text-xs font-semibold text-muted-foreground">Command Center</div>
@@ -450,7 +421,7 @@ export default function Index() {
                     </div>
 
                     <div className="mt-5 space-y-3">
-                      <div className="rounded-2xl border border-border bg-background/40 p-4">
+                      <div className="rounded-2xl border border-border bg-background/30 p-4">
                         <div className="flex items-center justify-between gap-3">
                           <div>
                             <div className="text-sm font-semibold">Daily Quest #1</div>
@@ -466,12 +437,12 @@ export default function Index() {
                       </div>
 
                       <div className="grid gap-3 sm:grid-cols-2">
-                        <div className="rounded-2xl border border-border bg-background/40 p-4">
+                        <div className="rounded-2xl border border-border bg-background/30 p-4">
                           <div className="text-xs font-semibold text-muted-foreground">Next Mission</div>
                           <div className="mt-1 text-sm font-semibold">Choose "Avalanche"</div>
                           <div className="mt-2 text-xs text-muted-foreground">for faster debt clearance</div>
                         </div>
-                        <div className="rounded-2xl border border-border bg-background/40 p-4">
+                        <div className="rounded-2xl border border-border bg-background/30 p-4">
                           <div className="text-xs font-semibold text-muted-foreground">Tip</div>
                           <div className="mt-1 text-sm font-semibold">Just-in-Time Lesson</div>
                           <div className="mt-2 text-xs text-muted-foreground">where risk matters most</div>
@@ -508,7 +479,7 @@ export default function Index() {
         </section>
 
         {/* How it works */}
-        <section id="how-it-works" className="border-t border-border">
+        <section id="how-it-works" className="border-t border-border/50">
           <div className="mx-auto max-w-6xl px-4 py-16">
             <SectionTitle
               eyebrow="Core Loop"
@@ -518,7 +489,7 @@ export default function Index() {
             <div className="mt-10 grid gap-4 lg:grid-cols-5">
               {steps.map((s, idx) => (
                 <Reveal key={s.title} delay={idx * 100}>
-                  <div className="h-full lg:col-span-1 rounded-3xl border border-border bg-secondary/50 p-6 shadow-soft transition-[box-shadow] duration-300 hover:shadow-[0_14px_40px_rgba(0,0,0,0.45)]">
+                  <div className="h-full lg:col-span-1 rounded-3xl border border-border bg-secondary/40 p-6 shadow-soft backdrop-blur-sm transition-[box-shadow] duration-300 hover:shadow-[0_14px_40px_rgba(0,0,0,0.45)]">
                     <div className="flex items-center gap-3">
                       <div className="text-xs font-bold tracking-wide text-brand-green ring-1 ring-brand-green/20 bg-brand-green/10 px-3 py-1 rounded-full">
                         {idx + 1}
@@ -543,7 +514,7 @@ export default function Index() {
           <div className="mt-10 grid gap-4 md:grid-cols-2">
             {modules.map((m, i) => (
               <Reveal key={m.key} delay={i * 80}>
-                <div className="rounded-3xl border border-border bg-secondary/50 p-6 shadow-soft transition-[box-shadow,transform] duration-300 hover:shadow-[0_14px_40px_rgba(0,0,0,0.45)] hover:-translate-y-1">
+                <div className="rounded-3xl border border-border bg-secondary/40 p-6 shadow-soft backdrop-blur-sm transition-[box-shadow,transform] duration-300 hover:shadow-[0_14px_40px_rgba(0,0,0,0.45)] hover:-translate-y-1">
                   <div className="flex items-start justify-between gap-4">
                     <div>
                       <div className="text-sm font-semibold text-foreground/90">{m.title}</div>
@@ -563,7 +534,7 @@ export default function Index() {
         </section>
 
         {/* Trust */}
-        <section id="trust" className="border-t border-border">
+        <section id="trust" className="border-t border-border/50">
           <div className="mx-auto max-w-6xl px-4 py-16">
             <SectionTitle
               eyebrow="UX & Trust"
@@ -572,18 +543,17 @@ export default function Index() {
             />
             <div className="mt-10 grid gap-4 lg:grid-cols-2">
               <Reveal delay={0}>
-                <div className="h-full rounded-3xl border border-border bg-secondary/50 p-6 shadow-soft">
+                <div className="h-full rounded-3xl border border-border bg-secondary/40 p-6 shadow-soft backdrop-blur-sm">
                   <h3 className="text-lg font-semibold tracking-tight">Trust Architecture</h3>
                   <p className="mt-2 text-sm text-muted-foreground">
                     Instead of dark patterns, FinQuest uses clear messaging, unobtrusive security indicators, and progressive disclosure of details.
-                    This keeps learning engaging, not stressful.
                   </p>
                   <div className="mt-5 space-y-3">
-                    <div className="rounded-2xl border border-border bg-background/40 p-4">
+                    <div className="rounded-2xl border border-border bg-background/30 p-4">
                       <div className="text-sm font-semibold">Progressive Disclosure</div>
                       <div className="mt-1 text-sm text-muted-foreground">Dashboard overview + details in 1–2 clicks.</div>
                     </div>
-                    <div className="rounded-2xl border border-border bg-background/40 p-4">
+                    <div className="rounded-2xl border border-border bg-background/30 p-4">
                       <div className="text-sm font-semibold">Accessibility</div>
                       <div className="mt-1 text-sm text-muted-foreground">Sufficient contrast, clear focus states, and comfortable navigation.</div>
                     </div>
@@ -592,18 +562,17 @@ export default function Index() {
               </Reveal>
 
               <Reveal delay={100}>
-                <div className="h-full rounded-3xl border border-border bg-secondary/50 p-6 shadow-soft">
+                <div className="h-full rounded-3xl border border-border bg-secondary/40 p-6 shadow-soft backdrop-blur-sm">
                   <h3 className="text-lg font-semibold tracking-tight">Ethical Gamification</h3>
                   <p className="mt-2 text-sm text-muted-foreground">
                     Confetti and visual rewards are the "frame" for progress, but behavior is directed toward sustainable decisions.
-                    Scenarios test your strategy (e.g., emergency fund), not your luck.
                   </p>
                   <div className="mt-5 grid gap-3 sm:grid-cols-2">
-                    <div className="rounded-2xl border border-border bg-background/40 p-4">
+                    <div className="rounded-2xl border border-border bg-background/30 p-4">
                       <div className="text-xs font-semibold text-muted-foreground">Reward</div>
                       <div className="mt-1 text-sm font-semibold text-brand-green">for the right move</div>
                     </div>
-                    <div className="rounded-2xl border border-border bg-background/40 p-4">
+                    <div className="rounded-2xl border border-border bg-background/30 p-4">
                       <div className="text-xs font-semibold text-muted-foreground">Lesson</div>
                       <div className="mt-1 text-sm font-semibold text-brand-green">at the right moment</div>
                     </div>
@@ -645,7 +614,7 @@ export default function Index() {
         </section>
 
         {/* CTA */}
-        <section className="border-t border-border">
+        <section className="border-t border-border/50">
           <div className="mx-auto max-w-6xl px-4 py-16">
             <div className="grid items-center gap-10 lg:grid-cols-2">
               <Reveal>
@@ -661,7 +630,7 @@ export default function Index() {
               </Reveal>
 
               <Reveal delay={100}>
-                <div className="rounded-3xl border border-border bg-secondary/50 p-6 shadow-soft">
+                <div className="rounded-3xl border border-border bg-secondary/40 p-6 shadow-soft backdrop-blur-sm">
                   <form
                     onSubmit={(e) => { e.preventDefault(); alert('Thank you! This is a demo form for the landing page.') }}
                     className="space-y-3"
@@ -672,7 +641,7 @@ export default function Index() {
                         required
                         type="email"
                         placeholder="name@example.com"
-                        className="mt-2 w-full rounded-2xl border border-border bg-background/40 px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground outline-none focus:border-brand-green transition-colors"
+                        className="mt-2 w-full rounded-2xl border border-border bg-background/30 px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground outline-none focus:border-brand-green transition-colors"
                       />
                     </label>
                     <button type="submit" className="w-full rounded-2xl bg-brand-green px-5 py-3 text-sm font-semibold text-background hover:bg-brand-green/90 active:scale-[0.97] transition-all duration-200">
@@ -690,7 +659,7 @@ export default function Index() {
       </main>
 
       {/* Footer */}
-      <footer className="border-t border-border">
+      <footer className="border-t border-border/50">
         <div className="mx-auto max-w-6xl px-4 py-10">
           <div className="flex flex-col gap-6 sm:flex-row sm:items-start sm:justify-between">
             <div>
