@@ -132,85 +132,22 @@ export default function Index() {
     { label: 'FAQ', href: '#faq' },
   ], [])
 
-  const features = useMemo(() => [
-    { icon: <Icon name="brain" />, title: 'Psychology, Not Points', description: 'Gamification driven by self-determination: autonomy, competence, and relatedness — with feedback at the right moment.' },
-    { icon: <Icon name="spark" />, title: 'Instant Reward', description: 'Progress is visible immediately: visual cues for your actions and learning that kicks in when you need it.' },
-    { icon: <Icon name="map" />, title: 'Scaffolding Complexity', description: 'We break financial concepts into small, achievable goals that build toward "financial freedom."' },
-    { icon: <Icon name="users" />, title: 'Goal-Based Community', description: 'Guilds and cooperative missions that motivate without creating toxic comparison.' },
-    { icon: <Icon name="coin" />, title: 'Simulation With Purpose', description: 'We demonstrate the impact of decisions (like interest, debt, and cash flow) through interactive scenarios.' },
-    { icon: <Icon name="shield" />, title: 'Trust & Security', description: 'Designed with transparency: clear messaging, accessibility, and UX that respects the seriousness of finance.' },
-  ], [])
+  /* Intro animation state */
+  const [introDone, setIntroDone] = useState(false)
+  const [showContent, setShowContent] = useState(false)
+  useEffect(() => {
+    const t1 = setTimeout(() => setShowContent(true), 2400)
+    const t2 = setTimeout(() => setIntroDone(true), 3200)
+    return () => { clearTimeout(t1); clearTimeout(t2) }
+  }, [])
 
-  const steps = useMemo(() => [
-    { title: 'Onboarding & Digital Twin', description: 'A short assessment determines your starting level and adjusts simulation difficulty.' },
-    { title: 'Command Center', description: 'Daily quests + a Health Bar tracking progress toward your financial well-being.' },
-    { title: 'Simulation Arena', description: 'Virtual time, drag-and-drop budgeting, and life decisions with realistic consequences.' },
-    { title: 'Academy: Just-in-Time', description: 'When the game challenges you, it instantly shows a lesson that solves the specific problem.' },
-    { title: 'Social Hub', description: 'Guilds that train habits together — with challenges oriented toward sustainable progress.' },
-  ], [])
-
-  const modules = useMemo(() => [
-    { key: 'survival', title: '1. Survival Basics', mechanic: '30-Day Detox', desc: 'Income/expenses, needs vs. wants, and emergency fund.' },
-    { key: 'debt', title: '2. Debt Slayer', mechanic: 'Avalanche vs. Snowball', desc: 'Types of debt, interest rates, and exit strategies.' },
-    { key: 'budget', title: '3. Budgeting & Planning', mechanic: 'Build Your Budget', desc: '50/30/20 rule, cash flow forecasting, and scenarios.' },
-    { key: 'invest', title: '4. Investing 101', mechanic: 'Training Portfolio', desc: 'Risk, return, and compound interest without real market risk.' },
-    { key: 'guard', title: '5. Protection & Security', mechanic: 'Scenario Quests', desc: 'Scam detection, insurance, and cyber hygiene.' },
-    { key: 'wealth', title: '6. Financial Freedom', mechanic: 'Fast Track Mode', desc: 'Passive income, FIRE, tax planning, and real estate.' },
-  ], [])
-
-  const faq = useMemo(() => [
-    { q: 'Are points and leaderboards the core?', a: 'No. Points are just visual indicators of progress. The core is motivation (autonomy/competence/relatedness) and learning that guides you to make better decisions.' },
-    { q: 'Is this a gambling game?', a: 'The simulations are educational: outcomes follow the logic of your decisions (risk/return/resources), not RNG that punishes or randomly rewards.' },
-    { q: 'How much time do I need?', a: 'Designed for micro-lessons and sessions of about 5–10 minutes. Every session ends with concrete progress and a clear next step.' },
-    { q: 'Is it accessible and respectful?', a: 'Yes. Trust means clear messaging, accessible interfaces, and UX without dark patterns. We aim for a serious yet engaging design.' },
-    { q: 'What do I actually get after training?', a: 'Not just knowledge, but habits: better budgeting, sustainable decisions, and progress toward financial goals — measurable through a Financial Wellness Score.' },
-  ], [])
-
-  const [openFaqIndex, setOpenFaqIndex] = useState<number>(0)
-  const [mobileOpen, setMobileOpen] = useState(false)
-
-  return (
-    <div className="min-h-screen bg-slate-950 text-slate-50">
-      <a href="#content" className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-50 focus:rounded-xl focus:bg-white focus:px-4 focus:py-2 focus:text-slate-900">
-        Skip to content
-      </a>
-
-      {/* Header */}
-      <header className="sticky top-0 z-40 border-b border-white/10 bg-slate-950/70 backdrop-blur">
-        <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-3">
-          <a href="#" className="rounded-xl p-1 hover:bg-white/5 transition-colors" aria-label="FinQuest">
-            <LogoMark />
-          </a>
-          <nav className="hidden items-center gap-6 md:flex" aria-label="Navigation">
-            {nav.map((item) => (
-              <a key={item.href} href={item.href} className="text-sm font-medium text-white/70 hover:text-white transition-colors duration-200">
-                {item.label}
-              </a>
-            ))}
-          </nav>
-          <button
-            type="button"
-            className="inline-flex items-center justify-center rounded-xl border border-white/10 bg-white/5 px-3 py-2 text-sm font-semibold text-white hover:bg-white/10 md:hidden transition-colors"
-            onClick={() => setMobileOpen((v) => !v)}
-            aria-expanded={mobileOpen}
-          >
-            {mobileOpen ? 'Close' : 'Menu'}
-          </button>
-        </div>
-        {mobileOpen ? (
-          <div className="md:hidden animate-fade-up">
-            <div className="mx-auto max-w-6xl px-4 pb-4">
-              <div className="rounded-2xl border border-white/10 bg-white/5 p-2">
-                {nav.map((item) => (
-                  <a key={item.href} href={item.href} className="block rounded-xl px-3 py-2 text-sm font-medium text-white/70 hover:bg-white/10 hover:text-white transition-colors" onClick={() => setMobileOpen(false)}>
-                    {item.label}
-                  </a>
-                ))}
-              </div>
-            </div>
-          </div>
-        ) : null}
-      </header>
+  /* Navbar scroll state */
+  const [scrolled, setScrolled] = useState(false)
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 40)
+    window.addEventListener('scroll', onScroll, { passive: true })
+    return () => window.removeEventListener('scroll', onScroll)
+  }, [])
 
       <main id="content">
         {/* Hero */}
