@@ -44,11 +44,51 @@ function Reveal({
   )
 }
 
+/* ── Animated background orbs ── */
+function AnimatedOrbs() {
+  return (
+    <div className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden="true">
+      {/* Green orb */}
+      <div
+        className="absolute left-[15%] top-[20%] h-[300px] w-[300px] rounded-full opacity-20 blur-[120px]"
+        style={{
+          background: 'hsl(var(--brand-green))',
+          animation: 'orb-float-1 12s ease-in-out infinite',
+        }}
+      />
+      {/* Primary (blue) orb */}
+      <div
+        className="absolute right-[20%] top-[30%] h-[250px] w-[250px] rounded-full opacity-15 blur-[100px]"
+        style={{
+          background: 'hsl(var(--primary))',
+          animation: 'orb-float-2 15s ease-in-out infinite',
+        }}
+      />
+      {/* Smaller green orb */}
+      <div
+        className="absolute left-[50%] bottom-[15%] h-[200px] w-[200px] rounded-full opacity-10 blur-[80px]"
+        style={{
+          background: 'hsl(var(--brand-green))',
+          animation: 'orb-float-3 18s ease-in-out infinite',
+        }}
+      />
+      {/* Tiny accent */}
+      <div
+        className="absolute right-[35%] top-[60%] h-[120px] w-[120px] rounded-full opacity-[0.08] blur-[60px]"
+        style={{
+          background: 'hsl(var(--brand-green))',
+          animation: 'orb-float-1 20s ease-in-out infinite reverse',
+        }}
+      />
+    </div>
+  )
+}
+
 /* ── Logo ── */
 function LogoMark() {
   return (
     <div className="flex items-center gap-2">
-      <img src={finquestLogo} alt="FinQuest logo" className="h-9 w-9 rounded-xl object-contain" />
+      <img src={finquestLogo} alt="FinQuest logo" className="h-9 w-9 rounded-xl bg-background object-contain" />
       <div className="leading-tight">
         <div className="text-sm font-semibold tracking-tight">FinQuest</div>
         <div className="text-[12px] text-muted-foreground">FinTech x EdTech RPG</div>
@@ -62,7 +102,7 @@ function SectionTitle({ eyebrow, title, description }: { eyebrow?: string; title
   return (
     <Reveal>
       <div className="mx-auto max-w-2xl text-center">
-        {eyebrow ? <div className="text-xs font-semibold text-primary/70">{eyebrow}</div> : null}
+        {eyebrow ? <div className="text-xs font-semibold text-brand-green">{eyebrow}</div> : null}
         <h2 className="mt-2 text-balance text-3xl font-semibold tracking-tight sm:text-4xl">{title}</h2>
         {description ? <p className="mt-4 text-pretty text-muted-foreground">{description}</p> : null}
       </div>
@@ -72,7 +112,7 @@ function SectionTitle({ eyebrow, title, description }: { eyebrow?: string; title
 
 /* ── Icons ── */
 function Icon({ name }: { name: 'spark' | 'brain' | 'shield' | 'map' | 'coin' | 'users' }) {
-  const cls = "text-primary/70"
+  const cls = "text-brand-green"
   const props = { width: 22, height: 22, viewBox: "0 0 24 24", fill: "none" as const, "aria-hidden": true as const, className: cls }
   const s = { stroke: "currentColor", strokeWidth: "1.8", strokeLinecap: "round" as const, strokeLinejoin: "round" as const }
   if (name === 'spark') return <svg {...props}><path d="M12 2l1.2 5.2L18 9l-4.8 1.8L12 16l-1.2-5.2L6 9l4.8-1.8L12 2Z" {...s}/><path d="M20 13l.8 2.8L23 17l-2.2.8L20 21l-.8-3.2L17 17l2.2-1.2L20 13Z" {...s}/><path d="M4 12l.9 2.4L7 15l-2.1.6L4 18l-.9-2.4L1 15l2.1-.6L4 12Z" {...s}/></svg>
@@ -85,8 +125,8 @@ function Icon({ name }: { name: 'spark' | 'brain' | 'shield' | 'map' | 'coin' | 
 
 function StatPill({ value, label }: { value: string; label: string }) {
   return (
-    <div className="rounded-2xl border border-border bg-secondary/50 px-4 py-3">
-      <div className="text-xl font-semibold tracking-tight">{value}</div>
+    <div className="rounded-2xl border border-brand-green/20 bg-brand-green/5 px-4 py-3">
+      <div className="text-xl font-semibold tracking-tight text-brand-green">{value}</div>
       <div className="mt-1 text-xs text-muted-foreground">{label}</div>
     </div>
   )
@@ -96,7 +136,7 @@ function FeatureCard({ icon, title, description, delay = 0 }: { icon?: ReactNode
   return (
     <Reveal delay={delay}>
       <div className="h-full rounded-3xl border border-border bg-secondary/50 p-6 shadow-soft transition-[box-shadow,transform] duration-300 hover:shadow-[0_14px_40px_rgba(0,0,0,0.45)] hover:-translate-y-1">
-        {icon ? <div className="h-10 w-10 rounded-2xl bg-primary/15 ring-1 ring-primary/20 flex items-center justify-center">{icon}</div> : null}
+        {icon ? <div className="h-10 w-10 rounded-2xl bg-brand-green/10 ring-1 ring-brand-green/20 flex items-center justify-center">{icon}</div> : null}
         <h3 className="mt-4 text-lg font-semibold tracking-tight">{title}</h3>
         <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{description}</p>
       </div>
@@ -110,7 +150,7 @@ function FAQItem({ q, a, open, onToggle }: { q: string; a: string; open: boolean
       <button type="button" className="w-full p-5 text-left" onClick={onToggle} aria-expanded={open}>
         <div className="flex items-start justify-between gap-4">
           <div className="text-[15px] font-semibold tracking-tight">{q}</div>
-          <div className="mt-0.5 text-primary/70 transition-transform duration-200" style={{ transform: open ? 'rotate(45deg)' : 'rotate(0)' }}>+</div>
+          <div className="mt-0.5 text-brand-green transition-transform duration-200" style={{ transform: open ? 'rotate(45deg)' : 'rotate(0)' }}>+</div>
         </div>
       </button>
       <div
@@ -132,13 +172,11 @@ export default function Index() {
     { label: 'FAQ', href: '#faq' },
   ], [])
 
-  /* Intro animation phases */
-  const [introPhase, setIntroPhase] = useState(0) // 0=hidden, 1=text visible, 2=text scaling out, 3=done
+  /* Intro text stagger */
+  const [introReady, setIntroReady] = useState(false)
   useEffect(() => {
-    const t1 = setTimeout(() => setIntroPhase(1), 100)    // show text
-    const t2 = setTimeout(() => setIntroPhase(2), 2200)   // scale out
-    const t3 = setTimeout(() => setIntroPhase(3), 3000)   // remove overlay
-    return () => { clearTimeout(t1); clearTimeout(t2); clearTimeout(t3) }
+    const t = setTimeout(() => setIntroReady(true), 200)
+    return () => clearTimeout(t)
   }, [])
 
   /* Navbar scroll */
@@ -189,75 +227,6 @@ export default function Index() {
 
   return (
     <div className="min-h-screen bg-background text-foreground">
-      {/* ── INTRO OVERLAY (ZeroLoop-inspired) ── */}
-      {introPhase < 3 && (
-        <div
-          className="fixed inset-0 z-[100] flex items-center justify-center bg-background"
-          style={{
-            opacity: introPhase >= 2 ? 0 : 1,
-            transition: 'opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1)',
-            pointerEvents: introPhase >= 2 ? 'none' : 'auto',
-          }}
-        >
-          {/* Glow */}
-          <div
-            className="absolute left-1/2 top-1/2 h-[400px] w-[400px] rounded-full bg-primary/20 blur-[100px]"
-            style={{ animation: 'hero-glow-pulse 3s ease-in-out infinite', transform: 'translate(-50%, -50%)' }}
-          />
-
-          <div className="relative text-center px-6 max-w-3xl">
-            {/* Logo */}
-            <div
-              style={{
-                opacity: introPhase >= 1 ? 1 : 0,
-                transform: introPhase >= 1 ? 'translateY(0) scale(1)' : 'translateY(30px) scale(0.9)',
-                filter: introPhase >= 1 ? 'blur(0px)' : 'blur(8px)',
-                transition: 'all 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0ms',
-              }}
-            >
-              <img src={finquestLogo} alt="" className="h-16 w-16 mx-auto rounded-2xl object-contain" />
-            </div>
-
-            {/* Main headline */}
-            <h1
-              className="mt-6 text-4xl font-semibold tracking-tight sm:text-6xl lg:text-7xl"
-              style={{
-                lineHeight: '1.05',
-                opacity: introPhase >= 1 ? 1 : 0,
-                transform: introPhase >= 1 ? 'translateY(0) scale(1)' : 'translateY(40px) scale(0.92)',
-                filter: introPhase >= 1 ? 'blur(0px)' : 'blur(12px)',
-                transition: 'all 0.9s cubic-bezier(0.16, 1, 0.3, 1) 200ms',
-              }}
-            >
-              Financial literacy<br />
-              <span className="text-primary">as an epic quest.</span>
-            </h1>
-
-            {/* Subtitle */}
-            <p
-              className="mt-5 text-base sm:text-lg text-muted-foreground max-w-lg mx-auto"
-              style={{
-                opacity: introPhase >= 1 ? 1 : 0,
-                transform: introPhase >= 1 ? 'translateY(0)' : 'translateY(24px)',
-                filter: introPhase >= 1 ? 'blur(0px)' : 'blur(6px)',
-                transition: 'all 0.8s cubic-bezier(0.16, 1, 0.3, 1) 500ms',
-              }}
-            >
-              Learn. Play. Build lasting financial habits.
-            </p>
-
-            {/* Decorative line */}
-            <div
-              className="mt-6 mx-auto h-px w-32 bg-primary/40"
-              style={{
-                transform: introPhase >= 1 ? 'scaleX(1)' : 'scaleX(0)',
-                transition: 'transform 0.8s cubic-bezier(0.16, 1, 0.3, 1) 700ms',
-              }}
-            />
-          </div>
-        </div>
-      )}
-
       <a href="#content" className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-50 focus:rounded-xl focus:bg-foreground focus:px-4 focus:py-2 focus:text-background">
         Skip to content
       </a>
@@ -265,12 +234,7 @@ export default function Index() {
       {/* ── APPLE-STYLE FLOATING NAVBAR ── */}
       <header
         className="fixed top-0 left-0 right-0 z-50 flex justify-center transition-all duration-500"
-        style={{
-          paddingTop: scrolled ? '8px' : '16px',
-          opacity: introPhase >= 3 ? 1 : 0,
-          transform: introPhase >= 3 ? 'translateY(0)' : 'translateY(-20px)',
-          transition: 'opacity 0.6s cubic-bezier(0.16,1,0.3,1), transform 0.6s cubic-bezier(0.16,1,0.3,1), padding 0.4s ease',
-        }}
+        style={{ paddingTop: scrolled ? '8px' : '16px' }}
       >
         <nav
           className="flex items-center gap-1 rounded-full border border-border/60 px-2 py-1.5 backdrop-blur-xl transition-all duration-500"
@@ -284,9 +248,9 @@ export default function Index() {
           }}
           aria-label="Navigation"
         >
-          <a href="#" className="flex items-center gap-2 rounded-full px-3 py-1.5 hover:bg-secondary/50 transition-colors" aria-label="FinQuest">
-            <img src={finquestLogo} alt="FinQuest" className="h-7 w-7 rounded-lg object-contain" />
-            <span className="text-sm font-semibold tracking-tight hidden sm:inline">FinQuest</span>
+          <a href="#" className="flex items-center gap-2 rounded-full px-3 py-1.5 nav-liquid-link" aria-label="FinQuest">
+            <img src={finquestLogo} alt="FinQuest" className="relative z-10 h-7 w-7 rounded-lg bg-background object-contain" />
+            <span className="relative z-10 text-sm font-semibold tracking-tight hidden sm:inline text-foreground">FinQuest</span>
           </a>
 
           <div className="hidden md:flex items-center">
@@ -294,20 +258,20 @@ export default function Index() {
               <a
                 key={item.href}
                 href={item.href}
-                className="rounded-full px-3.5 py-1.5 text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-secondary/50 transition-all duration-200"
+                className="nav-liquid-link"
               >
-                {item.label}
+                <span className="relative z-10">{item.label}</span>
               </a>
             ))}
           </div>
 
           <button
             type="button"
-            className="md:hidden rounded-full px-3 py-1.5 text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-secondary/50 transition-colors"
+            className="md:hidden nav-liquid-link"
             onClick={() => setMobileOpen((v) => !v)}
             aria-expanded={mobileOpen}
           >
-            {mobileOpen ? '✕' : '☰'}
+            <span className="relative z-10">{mobileOpen ? '✕' : '☰'}</span>
           </button>
         </nav>
 
@@ -325,7 +289,7 @@ export default function Index() {
               <a
                 key={item.href}
                 href={item.href}
-                className="block rounded-xl px-4 py-2.5 text-sm font-medium text-muted-foreground hover:bg-secondary/50 hover:text-foreground transition-colors"
+                className="block rounded-xl px-4 py-2.5 text-sm font-medium text-muted-foreground hover:bg-brand-green/10 hover:text-foreground transition-colors"
                 onClick={() => setMobileOpen(false)}
               >
                 {item.label}
@@ -336,26 +300,123 @@ export default function Index() {
       </header>
 
       <main id="content">
-        {/* Hero */}
-        <section className="relative overflow-hidden">
-          <div aria-hidden="true" className="pointer-events-none absolute inset-0">
-            <div className="absolute left-1/2 top-[-240px] h-[520px] w-[520px] -translate-x-1/2 rounded-full bg-primary/20 blur-3xl" />
-          </div>
+        {/* ══════════ PERSISTENT HERO (ZeroLoop-inspired) ══════════ */}
+        <section className="relative flex min-h-screen items-center justify-center overflow-hidden">
+          {/* Animated background orbs */}
+          <AnimatedOrbs />
 
-          <div className="mx-auto max-w-6xl px-4 pb-14 pt-28 sm:pb-20 sm:pt-32">
+          {/* Subtle grid pattern */}
+          <div
+            className="pointer-events-none absolute inset-0 opacity-[0.03]"
+            style={{
+              backgroundImage: 'linear-gradient(hsl(var(--foreground)) 1px, transparent 1px), linear-gradient(90deg, hsl(var(--foreground)) 1px, transparent 1px)',
+              backgroundSize: '60px 60px',
+            }}
+            aria-hidden="true"
+          />
+
+          <div className="relative z-10 mx-auto max-w-3xl px-6 text-center">
+            {/* Logo */}
+            <div
+              style={{
+                opacity: introReady ? 1 : 0,
+                transform: introReady ? 'translateY(0) scale(1)' : 'translateY(30px) scale(0.9)',
+                filter: introReady ? 'blur(0px)' : 'blur(8px)',
+                transition: 'all 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0ms',
+              }}
+            >
+              <img src={finquestLogo} alt="" className="mx-auto h-20 w-20 rounded-2xl bg-background object-contain shadow-[0_0_60px_hsl(var(--brand-green)/0.3)]" />
+            </div>
+
+            {/* Headline */}
+            <h1
+              className="mt-8 text-4xl font-semibold tracking-tight sm:text-6xl lg:text-7xl"
+              style={{
+                lineHeight: '1.05',
+                opacity: introReady ? 1 : 0,
+                transform: introReady ? 'translateY(0) scale(1)' : 'translateY(40px) scale(0.92)',
+                filter: introReady ? 'blur(0px)' : 'blur(12px)',
+                transition: 'all 0.9s cubic-bezier(0.16, 1, 0.3, 1) 200ms',
+              }}
+            >
+              Financial literacy<br />
+              <span className="text-brand-green">as an epic quest.</span>
+            </h1>
+
+            {/* Subtitle */}
+            <p
+              className="mx-auto mt-6 max-w-lg text-base text-muted-foreground sm:text-lg"
+              style={{
+                opacity: introReady ? 1 : 0,
+                transform: introReady ? 'translateY(0)' : 'translateY(24px)',
+                filter: introReady ? 'blur(0px)' : 'blur(6px)',
+                transition: 'all 0.8s cubic-bezier(0.16, 1, 0.3, 1) 500ms',
+              }}
+            >
+              Learn. Play. Build lasting financial habits.
+            </p>
+
+            {/* CTA buttons */}
+            <div
+              className="mt-8 flex flex-col items-center gap-3 sm:flex-row sm:justify-center"
+              style={{
+                opacity: introReady ? 1 : 0,
+                transform: introReady ? 'translateY(0)' : 'translateY(20px)',
+                transition: 'all 0.8s cubic-bezier(0.16, 1, 0.3, 1) 700ms',
+              }}
+            >
+              <a href="#modules" className="inline-flex items-center justify-center rounded-2xl bg-brand-green px-6 py-3 text-sm font-semibold text-background shadow-[0_4px_24px_hsl(var(--brand-green)/0.3)] hover:bg-brand-green/90 active:scale-[0.97] transition-all duration-200">
+                Explore Demo Vision
+              </a>
+              <a href="#how-it-works" className="inline-flex items-center justify-center rounded-2xl border border-brand-green/30 bg-brand-green/5 px-6 py-3 text-sm font-semibold text-foreground/90 hover:bg-brand-green/10 transition-all duration-200 active:scale-[0.97]">
+                See How It Works
+              </a>
+            </div>
+
+            {/* Decorative line */}
+            <div
+              className="mx-auto mt-8 h-px w-32 bg-brand-green/40"
+              style={{
+                transform: introReady ? 'scaleX(1)' : 'scaleX(0)',
+                transition: 'transform 0.8s cubic-bezier(0.16, 1, 0.3, 1) 900ms',
+              }}
+            />
+
+            {/* Scroll indicator */}
+            <div
+              className="mt-12"
+              style={{
+                opacity: introReady ? 1 : 0,
+                transition: 'opacity 1s ease 1.2s',
+              }}
+            >
+              <a href="#about" className="inline-flex flex-col items-center gap-2 text-muted-foreground/60 hover:text-brand-green/80 transition-colors">
+                <span className="text-xs tracking-widest uppercase">Scroll</span>
+                <svg width="16" height="24" viewBox="0 0 16 24" fill="none" className="opacity-60" style={{ animation: 'scroll-hint 2s ease-in-out infinite' }}>
+                  <path d="M8 4v12m0 0l-4-4m4 4l4-4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                </svg>
+              </a>
+            </div>
+          </div>
+        </section>
+
+        {/* ══════════ ABOUT / HERO DETAILS ══════════ */}
+        <section id="about" className="relative overflow-hidden">
+          <AnimatedOrbs />
+          <div className="relative mx-auto max-w-6xl px-4 pb-14 pt-20 sm:pb-20">
             <div className="grid items-center gap-10 lg:grid-cols-2">
               <div>
                 <Reveal delay={0}>
-                  <div className="inline-flex items-center gap-2 rounded-full border border-border bg-secondary/50 px-4 py-2 text-xs font-semibold text-muted-foreground">
-                    <span className="inline-block h-2 w-2 rounded-full bg-primary/70 animate-pulse" />
+                  <div className="inline-flex items-center gap-2 rounded-full border border-brand-green/20 bg-brand-green/5 px-4 py-2 text-xs font-semibold text-brand-green">
+                    <span className="inline-block h-2 w-2 rounded-full bg-brand-green animate-pulse" />
                     Strategic analysis of gamification for financial education
                   </div>
                 </Reveal>
 
                 <Reveal delay={100}>
-                  <h1 className="mt-5 text-balance text-4xl font-semibold tracking-tight sm:text-5xl" style={{ lineHeight: '1.1' }}>
-                    Financial literacy as an epic quest.
-                  </h1>
+                  <h2 className="mt-5 text-balance text-3xl font-semibold tracking-tight sm:text-4xl" style={{ lineHeight: '1.1' }}>
+                    Where RPG simulation meets <span className="text-brand-green">real-world finance.</span>
+                  </h2>
                 </Reveal>
 
                 <Reveal delay={200}>
@@ -363,17 +424,6 @@ export default function Index() {
                     FinQuest combines RPG simulation (inspired by Cashflow) with psychology-driven gamification:
                     autonomy, competence, and relatedness. The goal isn't "a game for points" — it's lasting financial habits.
                   </p>
-                </Reveal>
-
-                <Reveal delay={300}>
-                  <div className="mt-7 flex flex-col gap-3 sm:flex-row sm:items-center">
-                    <a href="#modules" className="inline-flex items-center justify-center rounded-2xl bg-primary px-5 py-3 text-sm font-semibold text-primary-foreground shadow-soft hover:bg-primary/90 active:scale-[0.97] transition-all duration-200">
-                      Explore Demo Vision
-                    </a>
-                    <a href="#how-it-works" className="inline-flex items-center justify-center rounded-2xl border border-border bg-secondary/50 px-5 py-3 text-sm font-semibold text-foreground/90 hover:bg-secondary transition-all duration-200 active:scale-[0.97]">
-                      See How It Works
-                    </a>
-                  </div>
                 </Reveal>
 
                 <Reveal delay={400}>
@@ -394,7 +444,7 @@ export default function Index() {
                         <div className="text-xs font-semibold text-muted-foreground">Command Center</div>
                         <div className="mt-1 text-lg font-semibold">North Star: "Buy a Home"</div>
                       </div>
-                      <div className="rounded-2xl bg-primary/15 px-3 py-2 text-xs font-semibold text-primary/70 ring-1 ring-primary/20">
+                      <div className="rounded-2xl bg-brand-green/10 px-3 py-2 text-xs font-semibold text-brand-green ring-1 ring-brand-green/20">
                         Financial Readiness: 72%
                       </div>
                     </div>
@@ -406,12 +456,12 @@ export default function Index() {
                             <div className="text-sm font-semibold">Daily Quest #1</div>
                             <div className="text-xs text-muted-foreground">Identify the interest in "compound interest"</div>
                           </div>
-                          <div className="rounded-xl bg-emerald-500/15 px-3 py-2 text-xs font-semibold text-emerald-300 ring-1 ring-emerald-400/20">
+                          <div className="rounded-xl bg-brand-green/15 px-3 py-2 text-xs font-semibold text-brand-green ring-1 ring-brand-green/20">
                             Done
                           </div>
                         </div>
                         <div className="mt-3 h-2 w-full rounded-full bg-secondary overflow-hidden">
-                          <div className="h-2 w-[70%] rounded-full bg-primary transition-all duration-1000" />
+                          <div className="h-2 w-[70%] rounded-full bg-brand-green transition-all duration-1000" />
                         </div>
                       </div>
 
@@ -429,7 +479,7 @@ export default function Index() {
                       </div>
                     </div>
 
-                    <div className="mt-5 rounded-2xl bg-primary/10 p-4 ring-1 ring-border">
+                    <div className="mt-5 rounded-2xl bg-brand-green/5 p-4 ring-1 ring-brand-green/10">
                       <div className="text-xs font-semibold text-muted-foreground">Why This Works</div>
                       <div className="mt-1 text-sm text-foreground/80">
                         When progress is visible instantly, competence grows, autonomy remains your choice, and
@@ -470,7 +520,7 @@ export default function Index() {
                 <Reveal key={s.title} delay={idx * 100}>
                   <div className="h-full lg:col-span-1 rounded-3xl border border-border bg-secondary/50 p-6 shadow-soft transition-[box-shadow] duration-300 hover:shadow-[0_14px_40px_rgba(0,0,0,0.45)]">
                     <div className="flex items-center gap-3">
-                      <div className="text-xs font-bold tracking-wide text-primary/70 ring-1 ring-primary/20 bg-primary/15 px-3 py-1 rounded-full">
+                      <div className="text-xs font-bold tracking-wide text-brand-green ring-1 ring-brand-green/20 bg-brand-green/10 px-3 py-1 rounded-full">
                         {idx + 1}
                       </div>
                     </div>
@@ -497,11 +547,11 @@ export default function Index() {
                   <div className="flex items-start justify-between gap-4">
                     <div>
                       <div className="text-sm font-semibold text-foreground/90">{m.title}</div>
-                      <div className="mt-2 text-xs font-semibold text-primary/70 ring-1 ring-primary/20 bg-primary/15 inline-flex rounded-full px-3 py-1">
+                      <div className="mt-2 text-xs font-semibold text-brand-green ring-1 ring-brand-green/20 bg-brand-green/10 inline-flex rounded-full px-3 py-1">
                         Mechanic: {m.mechanic}
                       </div>
                     </div>
-                    <div className="h-10 w-10 rounded-2xl bg-secondary ring-1 ring-border flex items-center justify-center text-primary/70 font-bold">
+                    <div className="h-10 w-10 rounded-2xl bg-brand-green/10 ring-1 ring-brand-green/20 flex items-center justify-center text-brand-green font-bold text-xs">
                       {m.key === 'survival' ? 'SF' : m.key === 'debt' ? 'DS' : m.key === 'budget' ? 'AR' : m.key === 'invest' ? 'IV' : m.key === 'guard' ? 'GD' : 'WT'}
                     </div>
                   </div>
@@ -551,19 +601,19 @@ export default function Index() {
                   <div className="mt-5 grid gap-3 sm:grid-cols-2">
                     <div className="rounded-2xl border border-border bg-background/40 p-4">
                       <div className="text-xs font-semibold text-muted-foreground">Reward</div>
-                      <div className="mt-1 text-sm font-semibold text-emerald-300">for the right move</div>
+                      <div className="mt-1 text-sm font-semibold text-brand-green">for the right move</div>
                     </div>
                     <div className="rounded-2xl border border-border bg-background/40 p-4">
                       <div className="text-xs font-semibold text-muted-foreground">Lesson</div>
-                      <div className="mt-1 text-sm font-semibold text-primary/70">at the right moment</div>
+                      <div className="mt-1 text-sm font-semibold text-brand-green">at the right moment</div>
                     </div>
                   </div>
-                  <div className="mt-5 rounded-2xl bg-primary/10 p-4 ring-1 ring-border">
+                  <div className="mt-5 rounded-2xl bg-brand-green/5 p-4 ring-1 ring-brand-green/10">
                     <div className="text-xs font-semibold text-muted-foreground">Call to Action</div>
                     <div className="mt-1 text-sm text-foreground/80">
                       Want to see a prototype? Click "Explore Demo Vision" and browse the modules below.
                     </div>
-                    <a href="#modules" className="mt-3 inline-flex items-center justify-center rounded-2xl bg-secondary px-4 py-2 text-sm font-semibold text-foreground hover:bg-secondary/80 active:scale-[0.97] transition-all">
+                    <a href="#modules" className="mt-3 inline-flex items-center justify-center rounded-2xl bg-brand-green/10 px-4 py-2 text-sm font-semibold text-brand-green hover:bg-brand-green/20 active:scale-[0.97] transition-all">
                       Go to Modules
                     </a>
                   </div>
@@ -600,7 +650,7 @@ export default function Index() {
             <div className="grid items-center gap-10 lg:grid-cols-2">
               <Reveal>
                 <div>
-                  <div className="text-xs font-semibold text-primary/70">FinQuest • Early Vision</div>
+                  <div className="text-xs font-semibold text-brand-green">FinQuest • Early Vision</div>
                   <h2 className="mt-2 text-balance text-3xl font-semibold tracking-tight sm:text-4xl">
                     Be the first to see the quest in action.
                   </h2>
@@ -622,10 +672,10 @@ export default function Index() {
                         required
                         type="email"
                         placeholder="name@example.com"
-                        className="mt-2 w-full rounded-2xl border border-border bg-background/40 px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground outline-none focus:border-primary transition-colors"
+                        className="mt-2 w-full rounded-2xl border border-border bg-background/40 px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground outline-none focus:border-brand-green transition-colors"
                       />
                     </label>
-                    <button type="submit" className="w-full rounded-2xl bg-primary px-5 py-3 text-sm font-semibold text-primary-foreground hover:bg-primary/90 active:scale-[0.97] transition-all duration-200">
+                    <button type="submit" className="w-full rounded-2xl bg-brand-green px-5 py-3 text-sm font-semibold text-background hover:bg-brand-green/90 active:scale-[0.97] transition-all duration-200">
                       Sign Me Up for Prototype
                     </button>
                     <div className="text-xs text-muted-foreground">
@@ -650,10 +700,10 @@ export default function Index() {
               </div>
             </div>
             <div className="grid gap-2 text-sm text-muted-foreground">
-              <a className="hover:text-foreground transition-colors" href="#how-it-works">How It Works</a>
-              <a className="hover:text-foreground transition-colors" href="#modules">Modules</a>
-              <a className="hover:text-foreground transition-colors" href="#faq">FAQ</a>
-              <a className="hover:text-foreground transition-colors" href="mailto:hello@finquest.app">Contact</a>
+              <a className="hover:text-brand-green transition-colors" href="#how-it-works">How It Works</a>
+              <a className="hover:text-brand-green transition-colors" href="#modules">Modules</a>
+              <a className="hover:text-brand-green transition-colors" href="#faq">FAQ</a>
+              <a className="hover:text-brand-green transition-colors" href="mailto:hello@finquest.app">Contact</a>
             </div>
           </div>
           <div className="mt-8 text-xs text-muted-foreground/60">
